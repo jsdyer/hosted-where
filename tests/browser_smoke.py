@@ -1,4 +1,4 @@
-"""Exercise the built starter at a project subpath in Chromium."""
+"""Exercise the published app at a project subpath in Chromium."""
 from functools import partial
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
@@ -29,22 +29,27 @@ def main():
                 errors = []
                 page.on("pageerror", lambda error: errors.append(str(error)))
                 page.goto(f"http://127.0.0.1:{server.server_port}/example-tool/")
-                page.locator("#sample").click()
-                assert page.locator("#output").input_value() == "Halifax\nLangley\nVancouver"
-                assert "1 duplicate removed" in page.locator("#status").inner_text()
-                page.locator("#input").fill('<img src=x onerror="alert(1)">\n<img src=x onerror="alert(1)">')
-                assert page.locator("#output").input_value() == '<img src=x onerror="alert(1)">'
-                assert page.locator("img").count() == 0
-                page.locator("#clear").click()
-                assert page.locator("#output").input_value() == ""
-                page.locator("#sample").click()
-                page.screenshot(path=str(screenshots / "desktop.png"), full_page=True)
-                page.set_viewport_size({"width": 390, "height": 844})
-                assert page.evaluate("document.documentElement.scrollWidth <= window.innerWidth")
-                page.screenshot(path=str(screenshots / "mobile.png"), full_page=True)
+                page.wait_for_selector('#pair article')
+                assert 'Dalhousie' in page.locator('#pair').inner_text()
+                page.click('#load')
+                assert 'Microsoft Exchange Online Protection' in page.locator('#mxout').inner_text()
+                page.fill('#mx','0 .')
+                page.click('#interpret')
+                assert 'Null MX' in page.locator('#mxout').inner_text()
+                page.select_option('#region','NS')
+                page.select_option('#scope','unknown')
+                assert page.locator('#rows tr').count()>=2
+                page.select_option('#first','gc-forms')
+                assert 'Canadian data centres' in page.locator('#pair').inner_text()
+                with page.expect_download() as dl:page.click('#csv')
+                assert dl.value.suggested_filename.endswith('.csv')
+                page.screenshot(path=str(screenshots/'desktop.png'))
+                page.set_viewport_size({'width':390,'height':844})
+                assert page.evaluate('document.documentElement.scrollWidth <= window.innerWidth')
+                page.screenshot(path=str(screenshots/'mobile.png'))
                 assert not errors, errors
                 browser.close()
-            print("Browser checks passed: project subpath, sample, clear, safe text and mobile layout")
+            print("Browser checks passed: project subpath, filters, source evidence, export and mobile layout")
         finally:
             server.shutdown()
 

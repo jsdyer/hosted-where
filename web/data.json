@@ -1,0 +1,135 @@
+{
+  "retrieved": "2026-11-19",
+  "count": 9,
+  "rows": [
+    {
+      "id": "dal-mail",
+      "org": "Dalhousie University",
+      "region": "NS",
+      "service": "University email",
+      "kind": "Email",
+      "operator": "Microsoft 365",
+      "location": "Unspecified",
+      "detail": "Dalhousie identifies Microsoft 365 as the platform for its university email. The current onboarding guide gives no storage country.",
+      "url": "https://www.dal.ca/dept/its/new.html",
+      "mail": "dal.ca",
+      "mx": {
+        "url": "https://dns.google/resolve?name=dal.ca&type=MX",
+        "answers": [
+          "0 dal-ca.mail.protection.Outlook.Com."
+        ],
+        "retrieved": "2026-11-19"
+      }
+    },
+    {
+      "id": "smu-mail",
+      "org": "Saint Mary’s University",
+      "region": "NS",
+      "service": "University email",
+      "kind": "Email",
+      "operator": "Microsoft 365",
+      "location": "Unspecified",
+      "detail": "The university directs students to their SMU Outlook account. The student guide establishes the mail product.",
+      "url": "https://www.smu.ca/future-students/nextsteps/",
+      "mail": "smu.ca",
+      "mx": {
+        "url": "https://dns.google/resolve?name=smu.ca&type=MX",
+        "answers": [
+          "10 smu-ca.mail.protection.outlook.com."
+        ],
+        "retrieved": "2026-11-19"
+      }
+    },
+    {
+      "id": "sfu-cloud",
+      "org": "Simon Fraser University",
+      "region": "BC",
+      "service": "SFU Cloud",
+      "kind": "Cloud infrastructure",
+      "operator": "Simon Fraser University",
+      "location": "On campus in BC",
+      "detail": "The service description places this private cloud in the SFU Data Centre. It is an option for university operations and research.",
+      "url": "https://www.sfu.ca/information-systems/services/sfu-cloud.html",
+      "mail": null
+    },
+    {
+      "id": "ubc-cms",
+      "org": "University of British Columbia",
+      "region": "BC",
+      "service": "UBC CMS",
+      "kind": "Web hosting",
+      "operator": "University of British Columbia",
+      "location": "On campus in BC",
+      "detail": "UBC describes on-campus hosting for sites in its WordPress CMS. The claim applies to this managed service.",
+      "url": "https://cms.ubc.ca/about/scope-of-services/",
+      "mail": null
+    },
+    {
+      "id": "uvic-files",
+      "org": "University of Victoria",
+      "region": "BC",
+      "service": "OneDrive files",
+      "kind": "File storage",
+      "operator": "Microsoft 365",
+      "location": "Canada at rest",
+      "detail": "UVic specifies Canada for OneDrive data at rest. This is a statement about file storage for this tenant.",
+      "url": "https://onlineacademiccommunity.uvic.ca/O365/onedrive/",
+      "mail": null
+    },
+    {
+      "id": "uvic-teams",
+      "org": "University of Victoria",
+      "region": "BC",
+      "service": "Teams",
+      "kind": "Collaboration",
+      "operator": "Microsoft 365",
+      "location": "Canada at rest; processing may cross borders",
+      "detail": "UVic describes Canadian storage for Teams and says some automated processing may occur outside Canada.",
+      "url": "https://onlineacademiccommunity.uvic.ca/O365/teams/",
+      "mail": null
+    },
+    {
+      "id": "hrm-feedback",
+      "org": "Halifax Regional Municipality",
+      "region": "NS",
+      "service": "Shape Your City Halifax",
+      "kind": "Public engagement",
+      "operator": "Bang the Table platform",
+      "location": "Unspecified",
+      "detail": "The municipal engagement guide identifies the platform for Shape Your City Halifax on PDF page 16. The guide names the software; it leaves the physical storage region unspecified.",
+      "url": "https://cdn.halifax.ca/sites/default/files/documents/business/planning-development/cc_planninganddevelopment_publicengagementguidebook_8.5x11-web-fillable.pdf",
+      "mail": null,
+      "pdf_sha256": "245338cd8bcb060e4d3fc72f1257e94192de6c7a43ab44efeb1b6e2c577bda30",
+      "pdf_page": 16
+    },
+    {
+      "id": "gc-notify",
+      "org": "Government of Canada",
+      "region": "Federal",
+      "service": "GC Notify",
+      "kind": "Notification delivery",
+      "operator": "Amazon Web Services",
+      "location": "Unspecified",
+      "detail": "The service agreement names AWS as GC Notify’s cloud provider. The archived 2021 security description separately documented three availability zones in the Montréal region at that time.",
+      "url": "https://notification.canada.ca/service-level-agreement",
+      "mail": null,
+      "historical": {
+        "date": "2021-07",
+        "url": "https://notification.canada.ca/security-old",
+        "detail": "Archived security description identified the Montréal region."
+      }
+    },
+    {
+      "id": "gc-forms",
+      "org": "Government of Canada",
+      "region": "Federal",
+      "service": "GC Forms",
+      "kind": "Public forms",
+      "operator": "Amazon Web Services",
+      "location": "Canadian data centres",
+      "detail": "The Canadian Digital Service operates GC Forms and identifies AWS data centres in Canada. This statement covers the forms platform.",
+      "url": "https://articles.alpha.canada.ca/forms-formulaires/why-gc-forms/",
+      "mail": null
+    }
+  ]
+}

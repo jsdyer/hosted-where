@@ -1,37 +1,47 @@
-import { cleanLines } from './model.mjs';
-const input = document.querySelector('#input');
-const output = document.querySelector('#output');
-const status = document.querySelector('#status');
-const copy = document.querySelector('#copy');
-function update() {
-  const result = cleanLines(input.value);
-  output.value = result.text;
-  status.textContent = `${result.count} unique ${result.count === 1 ? 'line' : 'lines'}; ${result.removed} ${result.removed === 1 ? 'duplicate' : 'duplicates'} removed.`;
-  copy.disabled = result.count === 0;
+import {el,node,link,option,download,source,fail} from './dom.mjs';
+import {parseMX,subset} from './model.mjs';
+let data,filtered;
+const p=new URLSearchParams(location.search);
+function drawCard(id){
+ const r=data.rows.find(x=>x.id===id);const c=node('article');
+ c.append(node('small',r.region+' · '+r.kind,'kicker'),node('h3',r.service),node('p',r.org),node('p',r.operator,'strong'),node('p','Storage evidence · '+r.location),node('p',r.detail),link('Read the service disclosure ↗',r.url+(r.pdf_page?'#page='+r.pdf_page:'')));
+ if(r.mx){
+   const mx=parseMX(r.mx.answers.join('\n'));
+   c.append(node('p','Incoming mail · '+[...new Set(mx.map(x=>x.provider))].join(', ')),link('Public MX answer ↗',r.mx.url));
+ }
+ if(r.historical)c.append(node('p',r.historical.date+' · '+r.historical.detail),link('Read archived statement ↗',r.historical.url));
+ return c;
 }
-input.addEventListener('input', update);
-document.querySelector('#sample').addEventListener('click', () => {
-  input.value = '  Halifax\nLangley\nHalifax\n\nVancouver  ';
-  update();
-});
-document.querySelector('#clear').addEventListener('click', () => {
-  input.value = '';
-  update();
-  input.focus();
-});
-if (navigator.clipboard && window.isSecureContext) {
-  copy.hidden = false;
-  copy.disabled = true;
-  copy.addEventListener('click', async () => {
-    try {
-      await navigator.clipboard.writeText(output.value);
-      status.textContent = 'Result copied.';
-    } catch {
-      output.focus();
-      output.select();
-      status.textContent = 'Copy was unavailable. The result is selected so you can copy it manually.';
-    }
-  });
+function render(){
+ el('pair').replaceChildren(...[...new Set([el('first').value,el('second').value])].map(drawCard));
+ filtered=subset(data.rows,el('region').value,el('scope').value);
+ el('matches').textContent=filtered.length+' matching services. Select a service below to compare it.';
+ el('rows').replaceChildren(...filtered.map(r=>{
+   const tr=node('tr'), td=node('td'), button=node('button',r.org+' · '+r.service);
+   button.onclick=()=>{el('first').value=r.id;render();el('first').focus();};
+   td.append(button);tr.append(td,node('td',r.operator),node('td',r.location));return tr;
+ }));
+ const url=new URL(location.href);for(const id of ['first','second','region','scope'])url.searchParams.set(id,el(id).value);
+ history.replaceState(null,'',url);
 }
-// Namespace future preference storage as coolcode:<tool-id>:<key>.
-// Do not persist pasted text or uploads by default.
+function explain(){
+ try{
+  const rows=parseMX(el('mx').value);
+  el('mxout').textContent=rows.length?rows.map(r=>'Priority '+r.priority+' · '+r.host+' · '+r.provider).join(' | '):'No recognizable MX rows. Paste the MX answer section with a numeric priority and mail host.';
+ }catch(err){el('mxout').textContent=err.message;}
+}
+async function start(){
+ data=await source();for(const id of ['first','second'])for(const r of data.rows)option(id,r.id,r.org+' · '+r.service);
+ for(const region of [...new Set(data.rows.map(r=>r.region))].sort())option('region',region,region);
+ el('first').value='dal-mail';el('second').value='uvic-files';
+ for(const id of ['first','second','region','scope']){
+   if([...el(id).options].some(o=>o.value===p.get(id)))el(id).value=p.get(id);
+   el(id).onchange=render;
+ }
+ el('status').textContent=data.count+' service disclosures · Records checked '+data.retrieved;
+ el('interpret').onclick=explain;
+ el('load').onclick=()=>{el('mx').value=data.rows.find(r=>r.id==='dal-mail').mx.answers.join('\n');explain();};
+ el('csv').onclick=()=>download('hosting-evidence.csv',['Institution','Region','Service','Provider or operator','Published location','Source','Reviewed'],filtered.map(r=>[r.org,r.region,r.service,r.operator,r.location,r.url,data.retrieved]));
+ render();
+}
+start().catch(fail);

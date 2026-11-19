@@ -1,21 +1,10 @@
-import test from 'node:test';
-import assert from 'node:assert/strict';
-import { cleanLines } from '../web/model.mjs';
-test('trims, removes blanks and preserves first-seen order', () => {
-  assert.deepEqual(cleanLines('  Halifax\nLangley\nHalifax\n\nVancouver  '), {
-    text: 'Halifax\nLangley\nVancouver', count: 3, removed: 1,
-  });
+import test from 'node:test';import assert from 'node:assert/strict';import {parseMX,subset} from '../web/model.mjs';
+test('parse dig and JSON while keeping relay and residency separate',()=>{
+ assert.equal(parseMX('dal.ca. 300 IN MX 0 dal-ca.mail.protection.outlook.com.')[0].provider,'Microsoft Exchange Online Protection');
+ assert.equal(parseMX('{"Answer":[{"type":1,"data":"a"},{"type":15,"data":"0 ."}]}')[0].host,'.');assert.deepEqual(parseMX('no record'),[]);
+ assert.equal(parseMX('4 fakeoutlook.com')[0].provider,'Provider unclassified');
 });
-test('supports Windows and old Mac line endings', () => {
-  assert.equal(cleanLines('a\r\nb\ra').text, 'a\nb');
+test('location filter includes only supported statements',()=>{
+ const rows=[{region:'NS',location:'Unspecified'},{region:'BC',location:'Canada at rest'}];
+ assert.equal(subset(rows,'','known').length,1);assert.equal(subset(rows,'BC','unknown').length,0);
 });
-test('empty text and whitespace produce an empty result', () => {
-  assert.deepEqual(cleanLines(' \n\t'), { text: '', count: 0, removed: 0 });
-});
-test('preserves case and Unicode', () => {
-  assert.equal(cleanLines('Québec\nquébec\n東京\nQuébec').text, 'Québec\nquébec\n東京');
-});
-test('treats markup as ordinary text', () => {
-  assert.equal(cleanLines('<script>alert(1)</script>\n<script>alert(1)</script>').text, '<script>alert(1)</script>');
-});
-test('rejects non-text input', () => { assert.throws(() => cleanLines(null), TypeError); });

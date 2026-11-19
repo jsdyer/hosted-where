@@ -1,33 +1,6 @@
-<!doctype html>
-<html lang="en-CA">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="{{DESCRIPTION}}">
-  <title>{{TITLE}} · CoolCode</title>
-  <link rel="stylesheet" href="./style.css">
-  <script type="module" src="./app.mjs"></script>
-</head>
-<body data-tool-id="{{TOOL_ID}}">
-  <a class="skip" href="#main">Skip to content</a>
-  <header><a href="https://coolcode.ca/">← CoolCode.ca</a><a href="{{SOURCE_URL}}">Source &amp; instructions ↗</a></header>
-  <main id="main">
-    <p class="eyebrow">Browser tool starter</p>
-    <h1>{{TITLE}}</h1>
-    <p class="intro">{{DESCRIPTION}}</p>
-    <section aria-labelledby="example-title">
-      <h2 id="example-title">Clean a list</h2>
-      <p>Trim spaces, skip blank lines and remove exact duplicates. Capitalization stays distinct.</p>
-      <div class="panels">
-        <div><label for="input">Your lines</label><textarea id="input" rows="10" maxlength="100000" spellcheck="false" placeholder="Paste one item per line"></textarea></div>
-        <div><label for="output">Cleaned lines</label><textarea id="output" rows="10" readonly spellcheck="false"></textarea></div>
-      </div>
-      <div class="actions"><button id="sample" type="button">Load example</button><button id="clear" type="button">Clear</button><button id="copy" type="button" hidden>Copy result</button></div>
-      <p id="status" role="status" aria-live="polite">Paste a list to begin.</p>
-      <noscript><p>This tool needs JavaScript to process your text. The source is available above.</p></noscript>
-    </section>
-    <aside aria-label="Privacy"><strong>Stays on your device.</strong> This example makes no API requests and does not save your text. Reloading clears it.</aside>
-  </main>
-  <footer>Part of <a href="https://coolcode.ca/">the CoolCode collection</a>.</footer>
-</body>
-</html>
+<!doctype html><html lang="en-CA"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="{{DESCRIPTION}}"><title>{{TITLE}} · CoolCode</title><link rel="stylesheet" href="./style.css"><script src="./app.mjs" type="module"></script></head><body data-tool-id="{{TOOL_ID}}"><a href="#main" class="skip">Skip to results</a><header><nav><a href="https://coolcode.ca/">← CoolCode</a><a href="{{SOURCE_URL}}">Source &amp; guide ↗</a></nav><div class="head"><small>Canada · Service evidence</small><h1>{{TITLE}}</h1><p>Pick two services and compare the evidence for who operates each one, where files are stored and what a mail record can establish.</p></div></header><main id="main"><p id="status" class="status" role="status">Loading published records…</p>
+<div class="controls"><label>First service<select id="first"></select></label><label>Compare with<select id="second"></select></label></div>
+<section class="sheet"><h2>Compare the evidence</h2><div class="grid" id="pair" aria-live="polite"></div></section>
+<section class="sheet"><div class="row"><h2>Browse services</h2><button id="csv">Download filtered records (.csv)</button></div><div class="controls"><label>Region<select id="region"><option value="">All regions</option></select></label><label>Published storage location<select id="scope"><option value="">All evidence</option><option value="known">Location specified</option><option value="unknown">Location unspecified</option></select></label></div><p id="matches" role="status"></p><div class="scroll"><table><thead><tr><th>Institution and service</th><th>Provider or operator</th><th>Storage evidence</th></tr></thead><tbody id="rows"></tbody></table></div></section>
+<section class="sheet"><h2>Read your mail-routing records</h2><label>Paste MX records or DNS-over-HTTPS JSON<textarea id="mx" placeholder="Paste your MX answer here" spellcheck="false"></textarea></label><button id="interpret">Interpret locally</button> <button id="load">Use Dalhousie’s published DNS answer</button><p id="mxout" role="status"></p><p class="fine">A mail exchanger accepts incoming messages for a domain. It can be a filtering service in front of a different mailbox provider. These records alone leave data storage location unknown. Input stays in this tab.</p></section>
+<noscript>Enable JavaScript to compare the records. The source and guide are available above.</noscript></main></body></html>

@@ -1,16 +1,38 @@
 {
-  "id": "coolcode-tool-template",
-  "title": "CoolCode Tool Starter",
-  "description": "A browser-only example that trims lines and removes exact duplicates.",
-  "category": "security",
-  "tags": ["text", "lines", "duplicates"],
-  "icon": "scan-search",
-  "url": "/coolcode-tool-template/",
-  "source": "https://github.com/jsdyer/coolcode-tool-template",
+  "id": "hosted-where",
+  "title": "Hosted Where",
+  "description": "Compare what Canadian institutions disclose about a service provider, mail gateway and storage location.",
+  "category": "liminal-tools",
+  "tags": [
+    "Canada",
+    "hosting",
+    "universities",
+    "mail",
+    "data residency"
+  ],
+  "icon": "network",
+  "url": "/hosted-where/",
+  "source": "https://github.com/jsdyer/hosted-where",
   "hosting": "project",
   "access": "browser",
   "data_info": {
-    "mode": "local",
-    "detail": "The browser reads the text you paste and compares its lines."
+    "mode": "mixed",
+    "detail": "Institutional service guides document hosting and storage. Public MX answers for named mail services identify the receiving gateway.",
+    "cadence": "Monthly",
+    "probes": [
+      {
+        "url": "https://coolcode.ca/hosted-where/data.json",
+        "path": [
+          "retrieved"
+        ],
+        "label": "Source retrieved",
+        "count_at": {
+          "path": [
+            "count"
+          ],
+          "unit": "service records"
+        }
+      }
+    ]
   }
 }
