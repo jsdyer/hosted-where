@@ -17,3 +17,11 @@ A provider name, a mail filtering service and a data location answer different q
 The collector checks the quoted evidence terms monthly, verifies the Halifax guidebook PDF against its reviewed digest and updates the named mail observations through Google Public DNS. A missing required source, changed PDF or DNS error stops the refresh for review. Source checks confirm the reviewed material still exists; the index describes only the cited services.
 
 Run `python scripts/refresh.py` to update the public evidence, `node --test tests/*.test.mjs` and `python -m unittest discover -s tests` to test, and `python scripts/build.py` to produce the static site.
+
+<!-- schedule-reliability -->
+## Schedule reliability
+
+Public GitHub repositories can have scheduled workflows disabled after 60 days of inactivity. A separate weekly [schedule guard](.github/workflows/schedule-guard.yml) calls GitHub's enable-workflow API for an explicit list of refresh workflows and itself. It can restore workflows disabled for inactivity, preserves manually disabled workflows, and runs independently of collection failures.
+
+This is an interim mitigation, not a scheduling guarantee: GitHub does not document active-workflow renewal as a permanent exemption, and scheduled runs can be delayed or dropped. A scheduler on our own Linux server is the planned independent trigger. The guard does not collect data, create dummy commits, or change source/check timestamps; successful collection and published data freshness still need monitoring.
+<!-- /schedule-reliability -->
